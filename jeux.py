@@ -34,12 +34,18 @@ class Jeux:
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
         self.group.add(self.player)
 
+    def handle_input(self):
+        """Gére les input clavier"""
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_UP]:
+            print("haut")
     def running(self):
         """Gére l'éveille du jeu et sa fermeture avec une combinaison de touche F1"""
         # boucle Jeu
         run = True
         while run:
             # rafraichissement de la page et dessin
+            self.handle_input()
             self.group.update()
             # centrage de la caméra
             self.group.center(self.player.rect)
