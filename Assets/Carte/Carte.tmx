@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="6">
+<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="10">
  <tileset firstgid="1" source="../Texture/Ete.tsx"/>
  <tileset firstgid="721" source="../Texture/Hiver.tsx"/>
  <layer id="8" name="Mur" width="50" height="50">
@@ -164,4 +164,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,163,163,163,163,203,203,204,163,164,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="10" name="Objects">
+  <object id="9" name="Player" x="76.6667" y="159.333">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

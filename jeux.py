@@ -27,7 +27,8 @@ class Jeux:
         map_layer.zoom = 2
 
         # instancier un joueur
-        self.player = Joueur()
+        player_position = tmx_data.get_object_by_name("Player")
+        self.player = Joueur(player_position.x,player_position.y)
 
         # Dessin groupe calque
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
@@ -39,6 +40,9 @@ class Jeux:
         run = True
         while run:
             # rafraichissement de la page et dessin
+            self.group.update()
+            # centrage de la caméra
+            self.group.center(self.player.rect)
             self.group.draw(self.screen)
             pygame.display.flip()
 
