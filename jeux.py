@@ -2,6 +2,8 @@ import pygame
 import pyscroll
 import pytmx
 from pygame import mixer
+
+import player
 from player import Joueur
 
 pygame.init()
@@ -30,23 +32,51 @@ class Jeux:
         player_position = tmx_data.get_object_by_name("Player")
         self.player = Joueur(player_position.x,player_position.y)
 
+        # liste rectangle collision
+        self.murs = []
+
+        for obj in tmx_data.objects:
+            if obj.name == "collision":
+                self.murs.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
         # Dessin groupe calque
-        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
+        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=2)
         self.group.add(self.player)
 
     def handle_input(self):
         """Gére les input clavier"""
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_UP]:
-            print("haut")
+            self.player.move_up()
+            self.player.change_animation('up')
+        elif pressed[pygame.K_DOWN]:
+            self.player.move_down()
+            self.player.change_animation('down')
+        elif pressed[pygame.K_RIGHT]:
+            self.player.move_right()
+            self.player.change_animation('right')
+        elif pressed[pygame.K_LEFT]:
+            self.player.move_left()
+            self.player.change_animation('left')
+
+    def update(self):
+        self.group.update()
+
+        #verif colision
+        for sprite in self.group.sprites():
+            if sprite.feet.collidelist(self.murs) > -1:
+                sprite.move_back()
     def running(self):
         """Gére l'éveille du jeu et sa fermeture avec une combinaison de touche F1"""
+        # Limitatioàn de la vitesse du jeu
+        clock = pygame.time.Clock()
+
         # boucle Jeu
         run = True
         while run:
             # rafraichissement de la page et dessin
+            self.player.save_location()
             self.handle_input()
-            self.group.update()
+            self.update()
             # centrage de la caméra
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
@@ -59,5 +89,5 @@ class Jeux:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_F1:
                         run = False
-
+            clock.tick(60)
         pygame.quit()
