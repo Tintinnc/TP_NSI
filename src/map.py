@@ -33,7 +33,8 @@ class MapManager:
         self.register_map("world", portals=[
             Portal(origin_world="world", origin_point="enter_house", destination_world="house", destination_point="spawn_house"),
             Portal(origin_world="world", origin_point="enter_house2", destination_world="house2", destination_point="spawn_house"),
-            Portal(origin_world="world", origin_point="enter_house3", destination_world="house3", destination_point="spawn_house")
+            Portal(origin_world="world", origin_point="enter_house3", destination_world="house3", destination_point="spawn_house"),
+            Portal(origin_world="world", origin_point="enter_dungeon", destination_world="grotte", destination_point="spawn_dungeon")
         ])
         self.register_map("house", portals=[
             Portal(origin_world="house", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit")
@@ -49,6 +50,10 @@ class MapManager:
 
         self.register_map("house3", portals=[
             Portal(origin_world="house3", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit3")
+        ])
+
+        self.register_map("grotte", portals=[
+            Portal(origin_world="grotte", origin_point="exit_dungeon",destination_world="world", destination_point="dungeon_exit_spawn")
         ])
 
         self.teleport_player("Player")
