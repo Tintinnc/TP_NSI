@@ -23,14 +23,13 @@ class Jeux:
         # Lancement de la musique
         mixer.init()
         mixer.music.load('./Assets/Musique/BackgroundV2.wav')
-        mixer.music.play(loops = -1)
+        mixer.music.play(loops=-1)
 
         # instancier un joueur
         self.player = Joueur(0, 0)
 
-        #integration de mapmanager
+        # integration de mapmanager
         self.map_manager = MapManager(self.screen, self.player)
-
 
     def handle_input(self):
         """Gére les input clavier"""
@@ -48,11 +47,8 @@ class Jeux:
             self.player.move_left()
             self.player.change_animation('left')
 
-
-
     def update(self):
         self.map_manager.update()
-
 
     def running(self):
         """Gére l'éveille du jeu et sa fermeture avec une combinaison de touche F1"""

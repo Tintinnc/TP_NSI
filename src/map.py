@@ -31,27 +31,40 @@ class MapManager:
         self.current_map = "world"
 
         self.register_map("world", portals=[
-            Portal(origin_world="world", origin_point="enter_house", destination_world="house",destination_point="spawn_house")
+            Portal(origin_world="world", origin_point="enter_house", destination_world="house", destination_point="spawn_house"),
+            Portal(origin_world="world", origin_point="enter_house2", destination_world="house2", destination_point="spawn_house"),
+            Portal(origin_world="world", origin_point="enter_house3", destination_world="house3", destination_point="spawn_house")
         ])
         self.register_map("house", portals=[
-            Portal(origin_world="house", origin_point="exit_house", destination_world="world",destination_point="enter_house_exit")
+            Portal(origin_world="house", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit")
+        ])
+        self.register_map("house2", portals=[
+            Portal(origin_world="house2", origin_point="exit_house", destination_world="world", destination_point="exit_house2"),
+            Portal(origin_world="house2", origin_point="enter_cave", destination_world="cave", destination_point="spawn_cave")
+        ])
+
+        self.register_map("cave",portals=[
+            Portal(origin_world="cave", origin_point="exit_cave", destination_world="house2", destination_point="spawn_house2")
+        ])
+
+        self.register_map("house3", portals=[
+            Portal(origin_world="house3", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit3")
         ])
 
         self.teleport_player("Player")
 
     def check_collisions(self):
-        # portails
-        global rect
+        # Collision avec les portails
         for portal in self.get_map().portals:
             if portal.origin_world == self.current_map:
                 point = self.get_object(portal.origin_point)
                 rect = pygame.Rect(point.x, point.y, point.width, point.height)
+                if self.player.feet.colliderect(rect):
+                    self.current_map = portal.destination_world
+                    self.teleport_player(portal.destination_point)
+                    return  # On sort de la méthode pour éviter de traiter les autres collisions
 
-            if self.player.feet.colliderect(rect):
-                copy_portal = portal
-                self.current_map = portal.destination_world
-                self.teleport_player(copy_portal.destination_point)
-        # Collision
+        # Collision avec les murs
         for sprite in self.get_group().sprites():
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()

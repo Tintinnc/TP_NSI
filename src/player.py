@@ -1,5 +1,6 @@
 import pygame
 
+
 class Joueur(pygame.sprite.Sprite):
     """Assemble le joueur"""
 
@@ -24,11 +25,12 @@ class Joueur(pygame.sprite.Sprite):
         # Réglage de la vitesse de déplacement
         self.speed = 3
 
-
     def save_location(self): self.old_position = self.position.copy()
+
     def change_animation(self, name):
         self.image = self.images[name]
         self.image.set_colorkey((0, 0, 0))
+
     def move_right(self):
         """Déplace le joueur a droite"""
         self.position[0] += self.speed
@@ -51,7 +53,7 @@ class Joueur(pygame.sprite.Sprite):
         self.feet.midbottom = self.rect.midbottom
 
     def move_back(self):
-        self.position =  self.old_position
+        self.position = self.old_position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
 
