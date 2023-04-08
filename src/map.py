@@ -39,7 +39,7 @@ class MapManager:
             Portal(origin_world="world", origin_point="enter_house3", destination_world="house3", destination_point="spawn_house"),
             Portal(origin_world="world", origin_point="enter_dungeon", destination_world="grotte", destination_point="spawn_dungeon")
         ], pnjs=[
-            PNJ("Amara", nb_points=4)
+            PNJ("Niklas", nb_points=4)
         ])
         self.register_map("house", portals=[
             Portal(origin_world="house", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit")
@@ -59,6 +59,8 @@ class MapManager:
 
         self.register_map("grotte", portals=[
             Portal(origin_world="grotte", origin_point="exit_dungeon",destination_world="world", destination_point="dungeon_exit_spawn")
+        ], pnjs=[
+            PNJ("DarkDante", nb_points=4)
         ])
 
         self.teleport_player("Player")
@@ -128,7 +130,7 @@ class MapManager:
             pnjs = map_data.pnjs
 
             for pnj in pnjs:
-                pnj.charger_points(self)
+                pnj.load_points(map_data.tmx_data)
                 pnj.teleport_spawn()
 
     def get_object(self, name):
@@ -141,3 +143,6 @@ class MapManager:
     def update(self):
         self.get_group().update()
         self.check_collisions()
+
+        for pnj in self.get_map().pnjs:
+            pnj.move()

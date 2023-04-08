@@ -170,7 +170,7 @@ class Menu:
 
         # Attendre 20 secondes
         start_time = pygame.time.get_ticks()
-        while pygame.time.get_ticks() - start_time < 20000:
+        while pygame.time.get_ticks() - start_time < 2:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
