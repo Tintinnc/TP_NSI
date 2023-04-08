@@ -176,7 +176,7 @@ class Menu:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_F1:
                         pygame.quit()
                         sys.exit()
 
