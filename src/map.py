@@ -4,6 +4,8 @@ import pygame
 import pyscroll
 import pytmx
 
+from src.player import PNJ
+
 
 @dataclass
 class Portal:
@@ -20,6 +22,7 @@ class Map:
     group: pyscroll.PyscrollGroup
     tmx_data: pytmx.TiledMap
     portals: list[Portal]
+    pnjs: list[PNJ]
 
 
 class MapManager:
@@ -35,6 +38,8 @@ class MapManager:
             Portal(origin_world="world", origin_point="enter_house2", destination_world="house2", destination_point="spawn_house"),
             Portal(origin_world="world", origin_point="enter_house3", destination_world="house3", destination_point="spawn_house"),
             Portal(origin_world="world", origin_point="enter_dungeon", destination_world="grotte", destination_point="spawn_dungeon")
+        ], pnjs=[
+            PNJ("Amara", nb_points=4)
         ])
         self.register_map("house", portals=[
             Portal(origin_world="house", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit")
@@ -57,6 +62,7 @@ class MapManager:
         ])
 
         self.teleport_player("Player")
+        self.teleport_pnjs()
 
     def check_collisions(self):
         # Collision avec les portails
@@ -80,8 +86,10 @@ class MapManager:
         self.player.position[1] = point.y
         self.player.save_location()
 
-    def register_map(self, name, portals=None):
+    def register_map(self, name, portals=None, pnjs=None):
         # Chargement map
+        if pnjs is None:
+            pnjs = []
         if portals is None:
             portals = []
         tmx_data = pytmx.util_pygame.load_pygame(f"./Assets/Carte/{name}.tmx")
@@ -99,8 +107,11 @@ class MapManager:
         group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=4)
         group.add(self.player)
 
+        # recup PNJ ajoute au groupe
+        for pnj in pnjs:
+            group.add(pnj)
         # crée objet Map
-        self.maps[name] = Map(name, walls, group, tmx_data, portals)
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, pnjs)
 
     def get_map(self):
         return self.maps[self.current_map]
@@ -110,6 +121,15 @@ class MapManager:
 
     def get_walls(self):
         return self.get_map().walls
+
+    def teleport_pnjs(self):
+        for map in self.maps:
+            map_data = self.maps[map]
+            pnjs = map_data.pnjs
+
+            for pnj in pnjs:
+                pnj.charger_points(self)
+                pnj.teleport_spawn()
 
     def get_object(self, name):
         return self.get_map().tmx_data.get_object_by_name(name)

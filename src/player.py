@@ -1,13 +1,13 @@
 import pygame
 
 
-class Joueur(pygame.sprite.Sprite):
+class Entity(pygame.sprite.Sprite):
     """Assemble le joueur"""
 
-    def __init__(self, x, y):
+    def __init__(self, name, x, y):
         """Crée le joueur"""
         super().__init__()
-        self.sprite_sheet = pygame.image.load('./Assets/Player/Adventurer.png')
+        self.sprite_sheet = pygame.image.load(f'./Assets/Player/{name}.png')
         self.image = self.get_image(0, 0)
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
@@ -62,3 +62,31 @@ class Joueur(pygame.sprite.Sprite):
         image = pygame.Surface([32, 32])
         image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
         return image
+
+
+class Joueur(Entity):
+
+    def __init__(self):
+        super().__init__("Eon", 0, 0)
+
+
+class PNJ(Entity):
+
+    def __init__(self, name, nb_points):
+        super().__init__(name, 0, 0)
+        self.nb_points = nb_points
+        self.points = []
+        self.current_point = 0
+        self.name = name
+
+    def teleport_spawn(self):
+        location = self.points[self.current_point]
+        self.position[0] = location.x
+        self.position[1] = location.y
+        self.save_location()
+    def charger_points(self, map):
+        for num in range(1, self.nb_points+1):
+            point = map.get_object(f'{self.name}_path{num}')
+            rect = pygame.Rect(point.x, point.y, point.width, point.height)
+            self.points.append(rect)
+
