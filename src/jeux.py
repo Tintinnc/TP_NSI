@@ -31,7 +31,7 @@ class Jeux:
         self.map_manager = MapManager(self.screen, self.player)
 
     def handle_input(self):
-        """Gére les input clavier et souris"""
+        """Gére les inputs clavier et souris"""
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_UP]:

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="48">
+<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="49">
  <tileset firstgid="1" source="Donjon.tsx"/>
  <tileset firstgid="257" source="../Texture/House.tsx"/>
  <layer id="4" name="background" width="50" height="50">
@@ -263,6 +263,7 @@
    <point/>
   </object>
   <object id="43" name="exit_dungeon" x="101.5" y="522.5" width="26.5" height="28.5"/>
+  <object id="48" name="End_game" x="639" y="135.5" width="37.5" height="36.5"/>
  </objectgroup>
  <objectgroup id="6" name="PNJPath">
   <object id="44" name="DarkDante_path1" x="624.5" y="160" width="14.5" height="16"/>

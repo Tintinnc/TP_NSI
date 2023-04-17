@@ -58,7 +58,8 @@ class MapManager:
         ])
 
         self.register_map("grotte", portals=[
-            Portal(origin_world="grotte", origin_point="exit_dungeon",destination_world="world", destination_point="dungeon_exit_spawn")
+            Portal(origin_world="grotte", origin_point="exit_dungeon",destination_world="world", destination_point="dungeon_exit_spawn"),
+            Portal(origin_world="grotte", origin_point="mort", destination_world="grotte", destination_point="spawn_dungeon")
         ], pnjs=[
             PNJ("DarkDante", nb_points=4)
         ])
