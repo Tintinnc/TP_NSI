@@ -1,3 +1,5 @@
 pygame
 pyscroll
 pytmx
+os
+sys
