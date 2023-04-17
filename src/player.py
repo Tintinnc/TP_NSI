@@ -1,28 +1,18 @@
 import pygame
 
+from src.animation import AnimateSprite
 
-class Entity(pygame.sprite.Sprite):
+
+class Entity(AnimateSprite):
     """Assemble le joueur"""
 
     def __init__(self, name, x, y):
         """Crée le joueur"""
-        super().__init__()
-        self.sprite_sheet = pygame.image.load(f'./Assets/Player/{name}.png')
+        super().__init__(name)
         self.image = self.get_image(0, 0)
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.position = [x, y]
-        # Crée un dictionnaire pour lier le deplacement au image
-        self.images = {
-            "down": self.get_image(64, 0),
-            "up": self.get_image(128, 352),
-            "left": self.get_image(128, 0),
-            "right": self.get_image(0, 0),
-            "down2": self.get_image(0, 0),
-            "up2": self.get_image(0, 96),
-            "left2": self.get_image(0, 32),
-            "right2": self.get_image(0, 64)
-        }
         self.feet = pygame.Rect(0, 0, self.rect.width * 0.5, 12)
         self.old_position = self.position.copy()
         # Réglage de la vitesse de déplacement
@@ -63,12 +53,6 @@ class Entity(pygame.sprite.Sprite):
         self.position = self.old_position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
-
-    def get_image(self, x, y):
-        """importe le sprite du personnage et le decoupe"""
-        image = pygame.Surface([32, 32])
-        image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
-        return image
 
 
 class Joueur(Entity):
