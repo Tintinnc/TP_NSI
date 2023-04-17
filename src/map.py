@@ -4,7 +4,7 @@ import pygame
 import pyscroll
 import pytmx
 
-from src.player import PNJ
+from player import PNJ
 
 
 @dataclass

@@ -4,7 +4,7 @@ import pygame
 from pygame import mixer
 
 from player import Joueur
-from src.map import MapManager
+from map import MapManager
 
 pygame.init()
 
