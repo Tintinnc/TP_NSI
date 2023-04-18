@@ -33,7 +33,7 @@ class Jeux:
     def handle_input(self):
         """Gére les inputs clavier et souris"""
         pressed = pygame.key.get_pressed()
-
+        # Condition pour les mouvements
         if pressed[pygame.K_UP]:
             self.player.move_up()
             self.player.change_animation('up')
@@ -48,6 +48,7 @@ class Jeux:
             self.player.change_animation('left')
 
     def update(self):
+        """Actualise la map"""
         self.map_manager.update()
 
     def running(self):
@@ -98,12 +99,12 @@ class Menu:
         self.background_image = pygame.transform.scale(self.background_image, (width, height))
 
         # Créer les boutons
-        font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 48)
-        self.play_button = font.render("Lancer la partie", True, (185, 159, 101))
+        self.font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 48)
+        self.play_button = self.font.render("Lancer la partie", True, (185, 159, 101))
         self.play_button_rect = self.play_button.get_rect(center=(width // 2, height // 2))
 
         # Créer le bouton "Exit Game"
-        self.exit_button = font.render("Quitter le jeu", True, (185, 159, 101))
+        self.exit_button = self.font.render("Quitter le jeu", True, (185, 159, 101))
         self.exit_button_rect = self.exit_button.get_rect(center=(width // 2, height // 2 + 75))
 
     def run(self):
@@ -121,6 +122,7 @@ class Menu:
                         self.touche()
                         self.scroll_text()
                         Jeux(self.width, self.height).running()
+                        self.End()
 
                         run = False
 
@@ -170,7 +172,7 @@ class Menu:
             touch_surfaces[key] = pygame.transform.scale(surface, new_size)
 
         # Créer une surface pour chaque ligne de texte
-        font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 30)
+        self.font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 30)
         text_surfaces = []
         for line in text_lines:
             # Séparer la ligne en deux parties : la touche et la description
@@ -179,7 +181,7 @@ class Menu:
             desc = split_line[1]  # la description est la deuxième partie de la ligne
 
             # Combinaison de l'image de la touche et la description
-            desc_surface = font.render(desc, True, (185, 159, 101))
+            desc_surface = self.font.render(desc, True, (185, 159, 101))
             full_surface = pygame.Surface((touch_surfaces[key].get_width() + desc_surface.get_width() + 20,
                                            max(touch_surfaces[key].get_height(), desc_surface.get_height())))
             full_surface.fill((255, 255, 255))
@@ -259,3 +261,58 @@ class Menu:
                     if event.key == pygame.K_F1:
                         pygame.quit()
                         sys.exit()
+
+    def End(self):
+        """Gére le menu de Fin"""
+        # Diviser le texte en plusieurs lignes
+        pygame.display.set_caption("Fin")
+        text_lines = ['   Developpe par:',
+                      ''
+                      ' Tao Battarel(TG6)',
+                      '',
+                      '',
+                      ' Musique Composer par :',
+                      '  Beatoven.ai',
+                      '  '
+                      '',
+                      '',
+                      ' Merci d avoir jouer']
+
+        # Créer une surface pour chaque ligne de texte
+        self.font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 30)
+        text_surfaces = []
+        for line in text_lines:
+            text_surface = self.font.render(line, True, (185, 159, 101))
+            text_surfaces.append(text_surface)
+
+        # Obtenir les dimensions de la surface de texte
+        text_width, text_height = text_surfaces[0].get_size()
+
+        # Coordonnées initiales
+        x = (self.width - text_width) // 2
+        y = (self.height - (text_height * len(text_lines))) // 2
+
+        # Afficher un écran noir
+        self.screen.fill((0, 0, 0))
+
+        # Afficher chaque ligne de texte à sa position respective
+        for i in range(len(text_lines)):
+            self.screen.blit(text_surfaces[i], (x, y + (text_height * i)))
+
+        # Mettre à jour l'affichage
+        pygame.display.flip()
+
+        # Attendre 20 secondes
+        start_time = pygame.time.get_ticks()
+        while pygame.time.get_ticks() - start_time < 10000:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_F1:
+                        pygame.quit()
+                        sys.exit()
+        pygame.quit()
+        sys.exit()
+

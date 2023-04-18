@@ -1,3 +1,4 @@
+import sys
 from dataclasses import dataclass
 
 import pygame
@@ -26,40 +27,53 @@ class Map:
 
 
 class MapManager:
+    """Va gérer toute les actions sur la map"""
 
     def __init__(self, screen, player):
+        # Instanciation du menu de fin
         self.maps = dict()
         self.screen = screen
         self.player = player
         self.current_map = "world"
-
+        # Enregistre tout les point à activer afin de les rendre dynamique
         self.register_map("world", portals=[
-            Portal(origin_world="world", origin_point="enter_house", destination_world="house", destination_point="spawn_house"),
-            Portal(origin_world="world", origin_point="enter_house2", destination_world="house2", destination_point="spawn_house"),
-            Portal(origin_world="world", origin_point="enter_house3", destination_world="house3", destination_point="spawn_house"),
-            Portal(origin_world="world", origin_point="enter_dungeon", destination_world="grotte", destination_point="spawn_dungeon")
+            Portal(origin_world="world", origin_point="enter_house", destination_world="house",
+                   destination_point="spawn_house"),
+            Portal(origin_world="world", origin_point="enter_house2", destination_world="house2",
+                   destination_point="spawn_house"),
+            Portal(origin_world="world", origin_point="enter_house3", destination_world="house3",
+                   destination_point="spawn_house"),
+            Portal(origin_world="world", origin_point="enter_dungeon", destination_world="grotte",
+                   destination_point="spawn_dungeon")
         ], pnjs=[
             PNJ("Niklas", nb_points=4)
         ])
         self.register_map("house", portals=[
-            Portal(origin_world="house", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit")
+            Portal(origin_world="house", origin_point="exit_house", destination_world="world",
+                   destination_point="enter_house_exit")
         ])
         self.register_map("house2", portals=[
-            Portal(origin_world="house2", origin_point="exit_house", destination_world="world", destination_point="exit_house2"),
-            Portal(origin_world="house2", origin_point="enter_cave", destination_world="cave", destination_point="spawn_cave")
+            Portal(origin_world="house2", origin_point="exit_house", destination_world="world",
+                   destination_point="exit_house2"),
+            Portal(origin_world="house2", origin_point="enter_cave", destination_world="cave",
+                   destination_point="spawn_cave")
         ])
 
-        self.register_map("cave",portals=[
-            Portal(origin_world="cave", origin_point="exit_cave", destination_world="house2", destination_point="spawn_house2")
+        self.register_map("cave", portals=[
+            Portal(origin_world="cave", origin_point="exit_cave", destination_world="house2",
+                   destination_point="spawn_house2")
         ])
 
         self.register_map("house3", portals=[
-            Portal(origin_world="house3", origin_point="exit_house", destination_world="world", destination_point="enter_house_exit3")
+            Portal(origin_world="house3", origin_point="exit_house", destination_world="world",
+                   destination_point="enter_house_exit3")
         ])
 
         self.register_map("grotte", portals=[
-            Portal(origin_world="grotte", origin_point="exit_dungeon",destination_world="world", destination_point="dungeon_exit_spawn"),
-            Portal(origin_world="grotte", origin_point="mort", destination_world="grotte", destination_point="spawn_dungeon")
+            Portal(origin_world="grotte", origin_point="exit_dungeon", destination_world="world",
+                   destination_point="dungeon_exit_spawn"),
+            Portal(origin_world="grotte", origin_point="mort", destination_world="grotte",
+                   destination_point="spawn_dungeon")
         ], pnjs=[
             PNJ("DarkDante", nb_points=4)
         ])
@@ -68,6 +82,7 @@ class MapManager:
         self.teleport_pnjs()
 
     def check_collisions(self):
+        """Vérifie s'il y a une collision avec un portail"""
         # Collision avec les portails
         for portal in self.get_map().portals:
             if portal.origin_world == self.current_map:
@@ -83,13 +98,23 @@ class MapManager:
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
 
+        # Collision avec le carré menu pour lancer le menu de fin
+        if self.current_map == "grotte":
+            menu_square = pygame.Rect(644, 135, 26, 24)
+            if self.player.feet.colliderect(menu_square):
+                from jeux import Menu
+                EndMenu = Menu(800, 600)
+                EndMenu.End()
+
     def teleport_player(self, name):
+        """Téléporte le joueur en enregistrant sa position initiale"""
         point = self.get_object(name)
         self.player.position[0] = point.x
         self.player.position[1] = point.y
         self.player.save_location()
 
     def register_map(self, name, portals=None, pnjs=None):
+        """Enregistre tous les objets dans la map rentrer dans le constructeur"""
         # Chargement map
         if pnjs is None:
             pnjs = []
@@ -142,6 +167,7 @@ class MapManager:
         self.get_group().center(self.player.rect.center)
 
     def update(self):
+        """Actualise les variables de collisions et le déplacement des pnj"""
         self.get_group().update()
         self.check_collisions()
 
