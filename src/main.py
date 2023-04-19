@@ -6,6 +6,6 @@ if __name__ == '__main__':
     pygame.init()
     menu = Menu(800, 600)
     if menu.run():
-        # Si bouton lacer la partie lancement du jeux
+        # Si bouton lacer la partie lancement du jeu
         game = Jeux(800, 600)
         game.running()

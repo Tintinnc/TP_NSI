@@ -21,7 +21,7 @@ class Jeux:
         pygame.display.set_caption("Twilight's Journey")
         # Lancement de la musique
         mixer.init()
-        mixer.music.load('./Assets/Musique/BackgroundV2.wav')
+        mixer.music.load('../Assets/Musique/BackgroundV2.wav')
         mixer.music.play(loops=-1)
 
         # instancier un joueur
@@ -90,16 +90,16 @@ class Menu:
         pygame.display.set_caption("Menu principal")
         # Lancement de la musique
         mixer.init()
-        mixer.music.load('./Assets/Musique/Menu_Background.mp3')
+        mixer.music.load('../Assets/Musique/Menu_Background.mp3')
         mixer.music.play(loops=-1)
         # Charger l'image de fond
-        self.background_image = pygame.image.load("./Assets/Images/menu_background.jpg")
+        self.background_image = pygame.image.load("../Assets/Images/menu_background.jpg")
 
         # Redimensionner l'image de fond pour qu'elle s'adapte à la taille de l'écran
         self.background_image = pygame.transform.scale(self.background_image, (width, height))
 
         # Créer les boutons
-        self.font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 48)
+        self.font = pygame.font.Font("../Assets/Fronts/The Wild Breath of Zelda.otf", 48)
         self.play_button = self.font.render("Lancer la partie", True, (185, 159, 101))
         self.play_button_rect = self.play_button.get_rect(center=(width // 2, height // 2))
 
@@ -165,14 +165,14 @@ class Menu:
         # Charger les images des touches
         touch_surfaces = {}
         for key, value in touch_images.items():
-            touch_surfaces[key] = pygame.image.load(os.path.join("Assets/Images", value)).convert_alpha()
+            touch_surfaces[key] = pygame.image.load(os.path.join("../Assets/Images", value)).convert_alpha()
 
         for key, surface in touch_surfaces.items():
             new_size = (surface.get_width() // 2, surface.get_height() // 2)
             touch_surfaces[key] = pygame.transform.scale(surface, new_size)
 
         # Créer une surface pour chaque ligne de texte
-        self.font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 30)
+        self.font = pygame.font.Font("../Assets/Fronts/The Wild Breath of Zelda.otf", 30)
         text_surfaces = []
         for line in text_lines:
             # Séparer la ligne en deux parties : la touche et la description
@@ -227,7 +227,7 @@ class Menu:
                       'Retablir la paix dans le royaume.']
 
         # Créer une surface pour chaque ligne de texte
-        font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 30)
+        font = pygame.font.Font("../Assets/Fronts/The Wild Breath of Zelda.otf", 30)
         text_surfaces = []
         for line in text_lines:
             text_surface = font.render(line, True, (185, 159, 101))
@@ -266,10 +266,12 @@ class Menu:
         """Gére le menu de Fin"""
         # Diviser le texte en plusieurs lignes
         pygame.display.set_caption("Fin")
-        text_lines = ['   Developpe par:',
+        text_lines = ['   Developer par:',
                       ''
                       ' Tao Battarel(TG6)',
                       '',
+                      '   Decore de :',
+                      '    Stealthix'
                       '',
                       ' Musique Composer par :',
                       '  Beatoven.ai',
@@ -279,7 +281,7 @@ class Menu:
                       ' Merci d avoir jouer']
 
         # Créer une surface pour chaque ligne de texte
-        self.font = pygame.font.Font("./Assets/Fronts/The Wild Breath of Zelda.otf", 30)
+        self.font = pygame.font.Font("../Assets/Fronts/The Wild Breath of Zelda.otf", 30)
         text_surfaces = []
         for line in text_lines:
             text_surface = self.font.render(line, True, (185, 159, 101))

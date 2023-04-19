@@ -6,7 +6,7 @@ class AnimateSprite(pygame.sprite.Sprite):
 
     def __init__(self, name):
         super().__init__()
-        self.sprite_sheet = pygame.image.load(f'./Assets/Player/{name}.png')
+        self.sprite_sheet = pygame.image.load(f'../Assets/Player/{name}.png')
         # Crée un dictionnaire pour lier le déplacement à l'image
         self.images = {
             "down": self.get_image(64, 0),

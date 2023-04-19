@@ -120,7 +120,7 @@ class MapManager:
             pnjs = []
         if portals is None:
             portals = []
-        tmx_data = pytmx.util_pygame.load_pygame(f"./Assets/Carte/{name}.tmx")
+        tmx_data = pytmx.util_pygame.load_pygame(f"../Assets/Carte/{name}.tmx")
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
         map_layer.zoom = 2
