@@ -270,7 +270,7 @@ class Menu:
                       ''
                       ' Tao Battarel(TG6)',
                       '',
-                      '   Decore de :',
+                      '   Decor de :',
                       '    Stealthix'
                       '',
                       ' Musique Composer par :',
